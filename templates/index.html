@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSVAgent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script>
+    window.CSVAGENT_INITIAL_STATE = {{ initial_state|tojson }};
+  </script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <section class="panel brand-panel">
+        <p class="eyebrow">CSV dashboard</p>
+        <h1>CSVAgent</h1>
+        <p class="panel-copy">
+          Browse a folder, open multiple CSV files, and render quick Plotly charts inline.
+        </p>
+      </section>
+
+      <section class="panel">
+        <label class="field-label" for="folder-path">Folder</label>
+        <div class="folder-picker">
+          <input
+            id="folder-path"
+            name="folder-path"
+            type="text"
+            placeholder="/path/to/csv-folder"
+            autocomplete="off"
+          >
+          <button id="browse-folder" class="button secondary" type="button">Browse</button>
+        </div>
+        <button id="load-folder" class="button primary wide" type="button">Load Folder</button>
+        <p class="field-hint">The most recent folder is persisted in the JSON config.</p>
+        <div id="status-message" class="status-message" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel panel-fill">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Available files</p>
+            <h2>CSV Files</h2>
+          </div>
+          <span id="file-count" class="count-badge">0</span>
+        </div>
+        <div id="file-list" class="file-list"></div>
+      </section>
+    </aside>
+
+    <main class="main-content">
+      <section class="workspace-header">
+        <div>
+          <p class="eyebrow">Workspace</p>
+          <h2>Loaded Tables</h2>
+        </div>
+        <p class="workspace-copy">
+          Each file stays on the page as its own card with paginated rows and chart controls.
+        </p>
+      </section>
+
+      <section id="empty-state" class="empty-state">
+        <h3>No tables loaded</h3>
+        <p>Select a folder on the left, then click a CSV file to load it into the workspace.</p>
+      </section>
+
+      <section id="tables-container" class="tables-container"></section>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
